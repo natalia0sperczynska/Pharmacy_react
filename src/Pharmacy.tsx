@@ -5,12 +5,13 @@ import app_logo from './app_logo.jpg'
 import Footer from './Footer';
 import Header from './Header';
 import Logo from './Logo';
-import Entry from './Entry';
 
-export default function App() {
+export default function Pharmacy() {
   return (
     <div className="App">
-        <Entry></Entry>
+      <Logo/>
+      <Header/>
+      <Footer/>
     </div>
   );
 }
