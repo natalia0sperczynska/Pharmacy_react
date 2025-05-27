@@ -1,8 +1,11 @@
 .App {
   text-align: center;
-   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   background-color: hsl(0, 0%, 100%);
 }
 
@@ -32,6 +35,14 @@
   border-bottom: 3px solid #e1f0f7;
 }
 
+.button{
+  background-color: #adcaf1;
+  color:white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+}
+
 .App-header h1 {
   margin: 0;
   font-size: 3rem;
@@ -54,6 +65,7 @@ nav ul.App-list li a {
 
 nav ul.App-list li a:hover {
   color: #57b3e1;
+ 
 }
 
 footer {
@@ -64,6 +76,34 @@ footer {
   font-size: 1rem;
   border-top: 2px solid #e1f0f7;
 }
+.form{
+    text-decoration: none;
+    color: #083e57;
+    border-radius: 1.5rem;
+    max-width: 400px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    padding :2rem;
+    justify-content: center;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: medium;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid #e1f0f7;
+    gap:2rem;
+
+  }
+  .form-label{
+    color:#083e57;
+    text-align: left;
+    margin-right: 1rem;
+  }
+  .form-input{
+    margin-top:0.4rem;
+    font-size: 1rem;
+    
+  
+  }
 
 @keyframes App-logo-spin {
   from {
@@ -72,4 +112,7 @@ footer {
   to {
     transform: rotate(360deg);
   }
+
+
+  
 }

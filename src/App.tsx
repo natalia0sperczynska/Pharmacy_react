@@ -6,11 +6,18 @@ import Footer from './Footer';
 import Header from './Header';
 import Logo from './Logo';
 import Entry from './Entry';
+import Button from './Button';
+import Form from './Form';
+
 
 export default function App() {
+ 
   return (
     <div className="App">
-        <Entry></Entry>
+        <Logo></Logo>
+        <Header></Header>
+        <Form></Form>
+        <Button></Button>
     </div>
   );
 }
