@@ -3,9 +3,6 @@ import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./themes/Theme";
-//import About from "./pages/About";
-//import Login from "./pages/Login";
-//import HomePage from "./pages/HomePage";
 import App from "./router/App";
 //backend - useEffect page number as a dependency
 
