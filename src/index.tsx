@@ -1,17 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-//import Pharmacy from './Pharmacy';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./themes/Theme";
+//import About from "./pages/About";
+//import Login from "./pages/Login";
+//import HomePage from "./pages/HomePage";
+import App from "./router/App";
+//backend - useEffect page number as a dependency
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+	document.getElementById("root") as HTMLElement,
 );
 root.render(
-  <React.StrictMode>
-    <App/>
-  </React.StrictMode>
+	<React.StrictMode>
+		<ThemeProvider theme={theme}>
+			<App />
+		</ThemeProvider>
+		{/* </ThemeContextProvider> */}
+	</React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function
