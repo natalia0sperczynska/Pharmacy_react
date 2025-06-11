@@ -1,18 +1,77 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CustomTextField from "./TextField";
 import Stack from "@mui/material/Stack";
 import CustomButton from "./Button";
 import Fingerprint from "@mui/icons-material/Fingerprint";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
+import { useAuth } from "../context/AuthContext";
+
 export default function Form() {
-	const [email, setEmail] = useState("");
+	const { login } = useAuth();
+	const navigate = useNavigate();
+	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setLoading(true);
+		setError("");
+
+		try {
+			const response = await axios.post(
+				"http://localhost:8080/api/auth/login",
+				{
+					username,
+					password,
+				},
+			);
+
+			const { token, userId } = response.data;
+
+			localStorage.setItem("authToken", token);
+			localStorage.setItem("userId", userId.toString());
+
+			login(token, userId.toString());
+
+			navigate("/home");
+		} catch (err: any) {
+			setError(
+				err.response?.data?.message || "Login failed. Please try again.",
+			);
+			console.error("Login error:", err);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	return (
-		<form className="form">
+		<form onSubmit={handleSubmit}>
 			<Stack direction="column" spacing={2}>
-				<CustomTextField label="Email" variant="outlined" />
-				<CustomTextField label="Password" variant="outlined" />
-				<CustomButton text="Login" icon={<Fingerprint />} size="large" />
+				<CustomTextField
+					label="Username"
+					variant="outlined"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+					required
+				/>
+				<CustomTextField
+					label="Password"
+					variant="outlined"
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+					required
+				/>
+				{error && <Alert severity="error">{error}</Alert>}
+				<CustomButton
+					text={loading ? "Logging in..." : "Login"}
+					icon={<Fingerprint />}
+					type="submit"
+				/>
 			</Stack>
 		</form>
 	);

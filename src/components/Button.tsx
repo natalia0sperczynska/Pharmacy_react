@@ -8,6 +8,8 @@ type CustomButtonProps = {
 	size?: "small" | "large" | "medium";
 	color?: "primary" | "secondary" | "error" | "warning" | "success";
 	variant?: "contained" | "outlined" | "text";
+	disabled?: boolean;
+	type?: "button" | "submit";
 };
 
 export default function CustomButton({
@@ -17,6 +19,8 @@ export default function CustomButton({
 	size = "medium",
 	color = "primary",
 	variant = "contained",
+	disabled = false,
+	type = "button",
 }: CustomButtonProps) {
 	return (
 		<Button
@@ -25,6 +29,8 @@ export default function CustomButton({
 			endIcon={icon}
 			onClick={onClick}
 			size={size}
+			disabled={disabled}
+			type={type}
 		>
 			{text}
 		</Button>

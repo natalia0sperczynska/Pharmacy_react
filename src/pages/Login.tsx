@@ -3,7 +3,6 @@ import Logo from "../components/Logo";
 import Form from "../components/Form";
 
 import Navigation from "../components/NavigationBar";
-import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
