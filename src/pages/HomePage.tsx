@@ -6,56 +6,35 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MedsList from "../components/MedsList";
 import ListTitle from "../components/ListTitle";
 import Footer from "../components/Footer";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-type UserData = {
-	id: number;
-	username: string;
-};
+import { useAuth } from "../context/AuthContext";
 
 const HomePage: React.FC = () => {
-	const { userId } = useParams<{ userId: string }>();
-	const [user, setUser] = useState<UserData | null>(null);
-	const [loading, setLoading] = useState(true);
+	const { user } = useAuth();
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const fetchUserData = async () => {
-			try {
-				const token = localStorage.getItem("authToken");
-				if (!token) {
-					navigate("/login");
-					return;
-				}
+		if (!user) {
+			navigate("/login");
+		}
+	}, [user, navigate]);
 
-				const response = await axios.get(`http://localhost:8080/api/user/me`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				});
-
-				setUser(response.data);
-			} catch (error) {
-				console.error("Failed to fetch user data", error);
-				navigate("/login");
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchUserData();
-	}, [userId, navigate]);
-
-	const handleLogout = () => {
-		localStorage.removeItem("authToken");
-		localStorage.removeItem("userId");
-		navigate("/login");
-	};
-
-	if (loading) {
+	if (!user) {
 		return <Box>Loading...</Box>;
 	}
+	// try {
+	// 	const token = localStorage.getItem("authToken");
+	// 	if (!token) {
+	// 		navigate("/login");
+	// 		return;
+	// 	}
+	// }
+
+	const handleLogout = () => {
+		localStorage.removeItem("user");
+		navigate("/login");
+	};
 
 	return (
 		<Box
