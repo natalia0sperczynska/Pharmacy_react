@@ -16,30 +16,27 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-	const [user, setUser] = useState<User | null>(() => {
-		const storedUser = localStorage.getItem("user");
-		return storedUser ? JSON.parse(storedUser) : null;
-	});
+	const [user, setUser] = useLocalStorage<User | null>("user", null);
 
-	useEffect(() => {
-		if (user) {
-			localStorage.setItem("user", JSON.stringify(user));
-		} else {
-			localStorage.removeItem("user");
-		}
-	}, [user]);
+	// useEffect(() => {
+	// 	if (user) {
+	// 		localStorage.setItem("user", JSON.stringify(user));
+	// 	} else {
+	// 		localStorage.removeItem("user");
+	// 	}
+	// }, [user]);
 
 	const login = (token: string, userId: string, username: string) => {
-		const userData = { id: userId, token, username };
+		const userData: User = { id: userId, token, username };
 		setUser(userData);
 		localStorage.setItem("authToken", token);
-		localStorage.setItem("user", JSON.stringify(userData));
+		// localStorage.setItem("user", JSON.stringify(userData));
 	};
 
 	const logout = () => {
 		setUser(null);
 		localStorage.removeItem("authToken");
-		localStorage.removeItem("user");
+		// localStorage.removeItem("user");
 	};
 
 	return (
