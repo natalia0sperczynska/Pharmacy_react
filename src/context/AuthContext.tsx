@@ -1,11 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../useLocalStorage";
-
-type User = {
-	id: number;
-	token: string;
-	username: string;
-};
+import { User } from "../types/User";
 
 type AuthContextType = {
 	login: (token: string, userId: number, username: string) => void;

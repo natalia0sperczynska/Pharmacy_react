@@ -55,7 +55,7 @@ const HomePage: React.FC = () => {
 				<Box
 					sx={{ width: "100%", maxWidth: "1200px", mb: 4, textAlign: "center" }}
 				>
-					<Typography variant="h4" component="h2">
+					<Typography variant="h4" component="h2" color="primary.dark">
 						Welcome, <strong>{user.username}</strong>
 					</Typography>
 				</Box>

@@ -10,6 +10,7 @@ import { useAuth } from "../context/AuthContext";
 import PurchaseList from "../components/PurchaseList";
 import { getPurchases } from "../api/purchases";
 import { Purchase } from "../types/Purchase";
+import { Typography } from "@mui/material";
 
 const PurchasePage: React.FC = () => {
 	const { user } = useAuth();
@@ -72,9 +73,9 @@ const PurchasePage: React.FC = () => {
 				}}
 			>
 				<Box sx={{ width: "100%", maxWidth: "1200px", mb: 2 }}>
-					<h2>
-						Purchase History for <strong>{user?.username}</strong>
-					</h2>
+					<Typography variant="h6" component="h1" color="primary.dark">
+						Purchase history for <strong>{user?.username}</strong>
+					</Typography>
 				</Box>
 				<Box
 					sx={{

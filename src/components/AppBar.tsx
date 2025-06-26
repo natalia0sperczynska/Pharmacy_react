@@ -60,7 +60,7 @@ function ResponsiveAppBar() {
 		handleCloseUserMenu();
 		switch (setting) {
 			case "Profile":
-				navigate("/profile");
+				navigate("/my-profile");
 				break;
 			case "Account":
 				navigate("/account");
@@ -84,7 +84,7 @@ function ResponsiveAppBar() {
 						variant="h6"
 						noWrap
 						component="a"
-						href="#app-bar-with-responsive-menu"
+						href="/home"
 						sx={{
 							mr: 2,
 							display: { xs: "none", md: "flex" },
@@ -93,6 +93,7 @@ function ResponsiveAppBar() {
 							letterSpacing: ".3rem",
 							color: "inherit",
 							textDecoration: "none",
+							cursor: "pointer",
 						}}
 					>
 						PHARMACY
@@ -135,7 +136,7 @@ function ResponsiveAppBar() {
 						variant="h5"
 						noWrap
 						component="a"
-						href="#app-bar-with-responsive-menu"
+						href="/home"
 						sx={{
 							mr: 2,
 							display: { xs: "flex", md: "none" },
@@ -145,6 +146,7 @@ function ResponsiveAppBar() {
 							letterSpacing: ".3rem",
 							color: "inherit",
 							textDecoration: "none",
+							cursor: "pointer",
 						}}
 					>
 						PHARMACY
@@ -163,7 +165,7 @@ function ResponsiveAppBar() {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+								<Avatar alt="User Avatar" src="/static/images/avatar/2.jpg" />
 							</IconButton>
 						</Tooltip>
 						<Menu

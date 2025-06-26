@@ -45,7 +45,7 @@ export default function HealthTips() {
 				variant="h4"
 				align="center"
 				gutterBottom
-				sx={{ fontWeight: "bold" }}
+				sx={{ fontWeight: "bold", color: "primary.dark" }}
 			>
 				Health Tips
 			</Typography>
