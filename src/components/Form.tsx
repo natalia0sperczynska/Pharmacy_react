@@ -30,8 +30,13 @@ export default function Form() {
 			login(token, userId, responseUsername);
 
 			navigate("/home");
-		} catch (error) {
+		} catch (error: any) {
 			console.error("Login error:", error);
+			if (error.response && error.response.status === 401) {
+				setError("Invalid username or password");
+			} else {
+				setError("Login failed. Please try again later.");
+			}
 		} finally {
 			setLoading(false);
 		}

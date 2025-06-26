@@ -3,18 +3,19 @@ import Box from "@mui/material/Box";
 import ResponsiveAppBar from "../components/AppBar";
 import CustomButton from "../components/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MedsList from "../components/MedsList";
 import ListTitle from "../components/ListTitle";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import HealthTips from "../components/HealthTips";
-import { Typography } from "@mui/material";
+import PurchaseList from "../components/PurchaseList";
+import { getPurchases } from "../api/purchases";
+import { Purchase } from "../types/Purchase";
 
-const HomePage: React.FC = () => {
+const PurchasePage: React.FC = () => {
 	const { user } = useAuth();
 	const navigate = useNavigate();
+	const [purchases, setPurchases] = useState<Purchase[]>([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		if (!user) {
@@ -22,14 +23,32 @@ const HomePage: React.FC = () => {
 		}
 	}, [user, navigate]);
 
-	if (!user) {
-		return <Box>Loading...</Box>;
-	}
+	useEffect(() => {
+		const fetchPurchases = async () => {
+			if (user) {
+				try {
+					const data = await getPurchases(user.id);
+					setPurchases(data);
+				} catch (error) {
+					console.error("Error fetching purchases:", error);
+				} finally {
+					setLoading(false);
+				}
+			}
+		};
+
+		fetchPurchases();
+	}, [user]);
 
 	const handleLogout = () => {
 		localStorage.removeItem("user");
+		localStorage.removeItem("authToken");
 		navigate("/login");
 	};
+
+	if (loading) {
+		return <Box>Loading...</Box>;
+	}
 
 	return (
 		<Box
@@ -48,51 +67,33 @@ const HomePage: React.FC = () => {
 					flexDirection: "column",
 					alignItems: "center",
 					justifyContent: "center",
+					p: 3,
 					width: "100%",
-					py: 4,
 				}}
 			>
-				<Box
-					sx={{ width: "100%", maxWidth: "1200px", mb: 4, textAlign: "center" }}
-				>
-					<Typography variant="h4" component="h2">
-						Welcome, <strong>{user.username}</strong>
-					</Typography>
+				<Box sx={{ width: "100%", maxWidth: "1200px", mb: 2 }}>
+					<h2>
+						Purchase History for <strong>{user?.username}</strong>
+					</h2>
 				</Box>
 				<Box
 					sx={{
 						width: "100%",
 						maxWidth: "1200px",
 						display: "flex",
-						flexDirection: { xs: "column", md: "row" },
-						justifyContent: "center",
-						alignItems: "center",
+						flexDirection: "column",
 						gap: 4,
 					}}
 				>
 					<Box
-						sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}
+						sx={{ flex: 2, display: "flex", flexDirection: "column", gap: 2 }}
 					>
-						<Box
-							sx={{
-								flex: { xs: 1, md: 2 },
-								width: "100%",
-								maxWidth: "800px",
-								display: "flex",
-								flexDirection: "column",
-								gap: 2,
-							}}
-						>
-							<ListTitle text="Available Meds" sx={{ textAlign: "center" }} />
-							<MedsList />
-						</Box>
-					</Box>
-					<Box
-						sx={{
-							flex: 1,
-						}}
-					>
-						<HealthTips />
+						<ListTitle text="Your Purchases" />
+						{loading ? (
+							<Box>Loading purchases...</Box>
+						) : (
+							<PurchaseList purchases={purchases} />
+						)}
 					</Box>
 				</Box>
 			</Box>
@@ -118,4 +119,4 @@ const HomePage: React.FC = () => {
 	);
 };
 
-export default HomePage;
+export default PurchasePage;

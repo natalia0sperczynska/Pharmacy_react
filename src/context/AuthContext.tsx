@@ -2,13 +2,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../useLocalStorage";
 
 type User = {
-	id: string;
+	id: number;
 	token: string;
 	username: string;
 };
 
 type AuthContextType = {
-	login: (token: string, userId: string, username: string) => void;
+	login: (token: string, userId: number, username: string) => void;
 	logout: () => void;
 	user: User | null;
 };
@@ -18,15 +18,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useLocalStorage<User | null>("user", null);
 
-	// useEffect(() => {
-	// 	if (user) {
-	// 		localStorage.setItem("user", JSON.stringify(user));
-	// 	} else {
-	// 		localStorage.removeItem("user");
-	// 	}
-	// }, [user]);
-
-	const login = (token: string, userId: string, username: string) => {
+	const login = (token: string, userId: number, username: string) => {
 		const userData: User = { id: userId, token, username };
 		setUser(userData);
 		localStorage.setItem("authToken", token);

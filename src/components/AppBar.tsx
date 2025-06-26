@@ -12,11 +12,13 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Logo from "./Logo";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["Meds", "Purchases", "Purchase History"];
 const settings = ["Profile", "Account", "Logout"];
 
 function ResponsiveAppBar() {
+	const navigate = useNavigate();
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null,
 	);
@@ -37,6 +39,40 @@ function ResponsiveAppBar() {
 
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
+	};
+	const handleNavMenuClick = (page: string) => {
+		handleCloseNavMenu();
+		switch (page) {
+			case "Meds":
+				navigate("/meds");
+				break;
+			case "Purchases":
+				navigate("/purchases");
+				break;
+			case "Purchase History":
+				navigate("/purchase-history");
+				break;
+			default:
+				break;
+		}
+	};
+	const handleUserMenuClick = (setting: string) => {
+		handleCloseUserMenu();
+		switch (setting) {
+			case "Profile":
+				navigate("/profile");
+				break;
+			case "Account":
+				navigate("/account");
+				break;
+			case "Logout":
+				localStorage.removeItem("user");
+				localStorage.removeItem("authToken");
+				navigate("/login");
+				break;
+			default:
+				break;
+		}
 	};
 
 	return (
@@ -89,7 +125,7 @@ function ResponsiveAppBar() {
 							sx={{ display: { xs: "block", md: "none" } }}
 						>
 							{pages.map((page) => (
-								<MenuItem key={page} onClick={handleCloseNavMenu}>
+								<MenuItem key={page} onClick={() => handleNavMenuClick(page)}>
 									<Typography textAlign="center">{page}</Typography>
 								</MenuItem>
 							))}
@@ -117,7 +153,7 @@ function ResponsiveAppBar() {
 						{pages.map((page) => (
 							<Button
 								key={page}
-								onClick={handleCloseNavMenu}
+								onClick={() => handleNavMenuClick(page)}
 								sx={{ my: 2, color: "white", display: "block" }}
 							>
 								{page}
@@ -147,7 +183,10 @@ function ResponsiveAppBar() {
 							onClose={handleCloseUserMenu}
 						>
 							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
+								<MenuItem
+									key={setting}
+									onClick={() => handleUserMenuClick(setting)}
+								>
 									<Typography textAlign="center">{setting}</Typography>
 								</MenuItem>
 							))}
