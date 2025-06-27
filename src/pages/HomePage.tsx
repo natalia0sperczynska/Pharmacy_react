@@ -3,14 +3,13 @@ import Box from "@mui/material/Box";
 import ResponsiveAppBar from "../components/AppBar";
 import CustomButton from "../components/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MedsList from "../components/MedsList";
 import ListTitle from "../components/ListTitle";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import HealthTips from "../components/HealthTips";
 import { Typography } from "@mui/material";
+import MedsListMain from "../components/MedsListMain";
 
 const HomePage: React.FC = () => {
 	const { user } = useAuth();
@@ -84,7 +83,7 @@ const HomePage: React.FC = () => {
 							}}
 						>
 							<ListTitle text="Available Meds" sx={{ textAlign: "center" }} />
-							<MedsList />
+							<MedsListMain />
 						</Box>
 					</Box>
 					<Box

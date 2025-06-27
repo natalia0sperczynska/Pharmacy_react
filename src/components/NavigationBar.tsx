@@ -5,23 +5,43 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import HomeIcon from "@mui/icons-material/Home";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import LockIcon from "@mui/icons-material/Lock";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navigation() {
-	const [value, setValue] = React.useState(0);
+	const location = useLocation();
+
+	const routes = ["/register", "/", "/login"];
+	const currentIndex = routes.indexOf(location.pathname);
 
 	return (
 		<Box
-			sx={{ width: "100%", position: "fixed", bottom: 0, left: 0, right: 0 }}
+			sx={{
+				width: "100%",
+				position: "fixed",
+				bottom: 0,
+				left: 0,
+				right: 0,
+				zIndex: 1000,
+			}}
 		>
 			<BottomNavigation
 				showLabels
-				value={value}
-				onChange={(event, newValue) => {
-					setValue(newValue);
+				value={currentIndex !== -1 ? currentIndex : false}
+				sx={{
+					"& .MuiBottomNavigationAction-root": {
+						color: "primary.dark",
+						"&.Mui-selected": {
+							color: "primary.main",
+						},
+					},
 				}}
 			>
-				<BottomNavigationAction label="Register" icon={<HowToRegIcon />} />
+				<BottomNavigationAction
+					label="Register"
+					icon={<HowToRegIcon />}
+					component={Link}
+					to="/register"
+				/>
 				<BottomNavigationAction
 					label="Home"
 					icon={<HomeIcon />}

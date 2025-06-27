@@ -6,24 +6,29 @@ import PurchasePage from "../pages/PurchasePage";
 import { AuthProvider } from "../context/AuthContext";
 import ProfilePage from "../pages/ProfilePage";
 import AccountPage from "../pages/AccountPage";
-import Purchases from "../pages/AccountPage";
-import Meds from "../pages/Meds";
+import PurchaseSuccessful from "../pages/PurchaseSuccessful";
+import CartPage from "../pages/Cart";
+import { CartProvider } from "../context/CartContext";
+import { ShopPage } from "../pages/ShopPage";
 
 export default function App() {
 	return (
 		<AuthProvider>
-			<BrowserRouter>
-				<Routes>
-					<Route path="/login" element={<Login />} />
-					<Route path="/" element={<About />} />
-					<Route path="/home" element={<HomePage />} />
-					<Route path="/purchase-history" element={<PurchasePage />} />
-					<Route path="/my-profile" element={<ProfilePage />} />
-					<Route path="/account" element={<AccountPage />} />
-					<Route path="/purchases" element={<Purchases />} />
-					<Route path="/meds" element={<Meds />} />
-				</Routes>
-			</BrowserRouter>
+			<CartProvider>
+				<BrowserRouter>
+					<Routes>
+						<Route path="/login" element={<Login />} />
+						<Route path="/" element={<About />} />
+						<Route path="/home" element={<HomePage />} />
+						<Route path="/purchase-history" element={<PurchasePage />} />
+						<Route path="/my-profile" element={<ProfilePage />} />
+						<Route path="/account" element={<AccountPage />} />
+						<Route path="/purchase" element={<CartPage />} />
+						<Route path="/shop" element={<ShopPage />} />
+						<Route path="/purchase-success" element={<PurchaseSuccessful />} />
+					</Routes>
+				</BrowserRouter>
+			</CartProvider>
 		</AuthProvider>
 	);
 }

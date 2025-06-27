@@ -9,6 +9,7 @@ import {
 	TableRow,
 	Paper,
 	Typography,
+	Box,
 } from "@mui/material";
 
 interface PurchaseListProps {
@@ -29,23 +30,45 @@ const PurchaseList: React.FC<PurchaseListProps> = ({ purchases }) => {
 			<Table>
 				<TableHead>
 					<TableRow>
-						<TableCell>Date</TableCell>
-						<TableCell>Medicine</TableCell>
-						<TableCell>Price</TableCell>
-						<TableCell>Quantity</TableCell>
-						<TableCell>Payment Method</TableCell>
+						<TableCell sx={{ fontWeight: "bold" }}>Purchase ID</TableCell>
+						<TableCell sx={{ fontWeight: "bold" }}>Date</TableCell>
+						<TableCell sx={{ fontWeight: "bold" }}>Payment Method</TableCell>
+						<TableCell sx={{ fontWeight: "bold" }}>Items</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{purchases.map((purchase) => (
 						<TableRow key={purchase.id}>
+							{/* Kolumny z danymi ogólnymi zakupu */}
+							<TableCell>{purchase.id}</TableCell>
 							<TableCell>
 								{new Date(purchase.purchaseDate).toLocaleDateString()}
 							</TableCell>
-							<TableCell>{purchase.med.name}</TableCell>
-							<TableCell>${purchase.med.price.toFixed(2)}</TableCell>
-							<TableCell>{purchase.med.quantity}</TableCell>
 							<TableCell>{purchase.paymentMethod}</TableCell>
+							<TableCell>
+								<Box>
+									<Table size="small" aria-label="purchase items">
+										<TableHead>
+											<TableRow>
+												<TableCell>Medicine</TableCell>
+												<TableCell>Quantity</TableCell>
+												<TableCell>Unit Price</TableCell>
+												<TableCell>Total Price</TableCell>
+											</TableRow>
+										</TableHead>
+										<TableBody>
+											{purchase.items.map((item) => (
+												<TableRow key={item.medId}>
+													<TableCell>{item.medName}</TableCell>
+													<TableCell>{item.quantity}</TableCell>
+													<TableCell>${item.unitPrice.toFixed(2)}</TableCell>
+													<TableCell>${item.totalPrice.toFixed(2)}</TableCell>
+												</TableRow>
+											))}
+										</TableBody>
+									</Table>
+								</Box>
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>

@@ -1,21 +1,16 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
-import IconButton from "@mui/material/IconButton";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import MedsList_placeholder from "../jpg/MedsList_placeholder.jpg";
 import { getMeds } from "../api/meds";
 import { Med } from "../types/Med";
-interface MedsListProps {
-	onAddToCart: (med: Med) => void;
-}
 
-export default function MedsList({ onAddToCart }: MedsListProps) {
+export default function MedsListMain() {
 	const [meds, setMeds] = useState<Med[]>([]);
 	const [loading, setLoading] = useState(true);
-
+	const [error, setError] = useState<string | null>(null);
 	useEffect(() => {
 		const fetchMeds = async () => {
 			try {
@@ -35,7 +30,7 @@ export default function MedsList({ onAddToCart }: MedsListProps) {
 	if (meds.length === 0) return <div>No meds found</div>;
 
 	return (
-		<ImageList sx={{ width: "100%", maxWidth: 800, height: "auto" }}>
+		<ImageList sx={{ width: 500, height: 450 }}>
 			{meds.map((med) => (
 				<ImageListItem key={med.id}>
 					<img
@@ -46,17 +41,8 @@ export default function MedsList({ onAddToCart }: MedsListProps) {
 					/>
 					<ImageListItemBar
 						title={med.name}
-						subtitle={`${med.company_name}, ${med.price.toFixed(2)} zł`}
+						subtitle={`${med.company_name}, ${med.price}$`}
 						position="below"
-						actionIcon={
-							<IconButton
-								sx={{ color: "primary.main" }}
-								aria-label={`add ${med.name} to cart`}
-								onClick={() => onAddToCart(med)}
-							>
-								<AddShoppingCartIcon />
-							</IconButton>
-						}
 					/>
 				</ImageListItem>
 			))}

@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Logo from "./Logo";
 import { useNavigate } from "react-router-dom";
 
-const pages = ["Meds", "Purchases", "Purchase History"];
+const pages = ["Meds", "Purchase", "Purchase History"];
 const settings = ["Profile", "Account", "Logout"];
 
 function ResponsiveAppBar() {
@@ -44,10 +44,10 @@ function ResponsiveAppBar() {
 		handleCloseNavMenu();
 		switch (page) {
 			case "Meds":
-				navigate("/meds");
+				navigate("/shop");
 				break;
-			case "Purchases":
-				navigate("/purchases");
+			case "Purchase":
+				navigate("/purchase");
 				break;
 			case "Purchase History":
 				navigate("/purchase-history");
