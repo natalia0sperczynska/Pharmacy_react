@@ -13,12 +13,15 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Logo from "./Logo";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const pages = ["Meds", "Purchase", "Purchase History"];
 const settings = ["Profile", "Account", "Logout"];
+const adminPages = ["Dashboard", "Manage Users", "All Orders"];
 
 function ResponsiveAppBar() {
 	const navigate = useNavigate();
+	const { user } = useAuth();
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null,
 	);
@@ -42,20 +45,39 @@ function ResponsiveAppBar() {
 	};
 	const handleNavMenuClick = (page: string) => {
 		handleCloseNavMenu();
-		switch (page) {
-			case "Meds":
-				navigate("/shop");
-				break;
-			case "Purchase":
-				navigate("/purchase");
-				break;
-			case "Purchase History":
-				navigate("/purchase-history");
-				break;
-			default:
-				break;
+		if (user?.role?.includes("ROLE_ADMIN")) {
+			switch (page) {
+				case "Main":
+					navigate("/admin/main");
+					break;
+				case "Manage Users":
+					navigate("/admin/users");
+					break;
+				case "All Orders":
+					navigate("/admin/orders");
+					break;
+				default:
+					navigate("/admin/main");
+					break;
+			}
+		} else {
+			switch (page) {
+				case "Meds":
+					navigate("/shop");
+					break;
+				case "Cart":
+					navigate("/cart");
+					break;
+				case "Purchase History":
+					navigate("/purchase-history");
+					break;
+				default:
+					navigate("/home");
+					break;
+			}
 		}
 	};
+
 	const handleUserMenuClick = (setting: string) => {
 		handleCloseUserMenu();
 		switch (setting) {
@@ -67,7 +89,6 @@ function ResponsiveAppBar() {
 				break;
 			case "Logout":
 				localStorage.removeItem("user");
-				localStorage.removeItem("authToken");
 				navigate("/login");
 				break;
 			default:
@@ -83,8 +104,7 @@ function ResponsiveAppBar() {
 					<Typography
 						variant="h6"
 						noWrap
-						component="a"
-						href="/home"
+						onClick={() => navigate("/home")}
 						sx={{
 							mr: 2,
 							display: { xs: "none", md: "flex" },
@@ -135,8 +155,7 @@ function ResponsiveAppBar() {
 					<Typography
 						variant="h5"
 						noWrap
-						component="a"
-						href="/home"
+						onClick={() => navigate("/home")}
 						sx={{
 							mr: 2,
 							display: { xs: "flex", md: "none" },
@@ -165,7 +184,7 @@ function ResponsiveAppBar() {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="User Avatar" src="/static/images/avatar/2.jpg" />
+								<Avatar alt="Pharmacy" src="/static/images/avatar/2.jpg" />
 							</IconButton>
 						</Tooltip>
 						<Menu

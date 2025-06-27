@@ -36,12 +36,12 @@ const AccountPage = () => {
 	useEffect(() => {
 		const fetchProfile = async () => {
 			try {
-				if (!user?.token) {
+				if (!user) {
 					navigate("/login");
 					return;
 				}
 
-				const profileData = await getProfile(user.token);
+				const profileData = await getProfile();
 				setProfile(profileData);
 				setFormData({
 					name: profileData.name,
@@ -75,13 +75,9 @@ const AccountPage = () => {
 		setSuccess("");
 
 		try {
-			if (!user?.token || !profile) return;
+			if (!user || !profile) return;
 
-			const updatedProfile = await updateProfile(
-				profile.id,
-				formData,
-				user.token,
-			);
+			const updatedProfile = await updateProfile(profile.id, formData);
 			setProfile(updatedProfile);
 			setSuccess("Profile updated successfully");
 		} catch (err) {

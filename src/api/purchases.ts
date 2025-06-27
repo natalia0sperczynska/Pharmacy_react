@@ -1,51 +1,39 @@
 import axios from "axios";
 import { PaymentMethods } from "../types/PaymentMethods";
-import { PurchaseItemDTO } from "../types/Purchase";
+import { Purchase, PurchaseItemDTO } from "../types/Purchase";
+import apiClient from "./axiosConfig";
 
-const API_URL = "http://localhost:8080";
-export const createPurchase = async (purchaseData: {
+interface CreatePurchaseData {
 	purchaseDate: string;
 	paymentMethod: string;
 	userId: number;
 	items: PurchaseItemDTO[];
-}) => {
-	const token = localStorage.getItem("authToken");
+}
+
+export const createPurchase = async (
+	purchaseData: CreatePurchaseData,
+): Promise<any> => {
 	try {
-		const response = await axios.post(
-			`http://localhost:8080/api/purchases`,
-			purchaseData,
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-					"Content-Type": "application/json",
-				},
-			},
-		);
+		const response = await apiClient.post("/purchases", purchaseData);
 		return response.data;
 	} catch (error) {
-		if (axios.isAxiosError(error)) {
-			throw error.response?.data || error.message;
+		if (error) {
+			throw error;
 		}
 		throw error;
 	}
 };
 
-export const getPurchases = async (userId: number) => {
+export const getPurchases = async (userId: number): Promise<Purchase[]> => {
 	try {
-		const response = await axios.get(`${API_URL}/api/purchases`, {
+		const response = await apiClient.get("/purchases", {
 			params: { userId },
-			headers: {
-				Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-			},
 		});
 		return response.data;
 	} catch (error) {
-		if (axios.isAxiosError(error)) {
-			throw error.response?.data || error.message;
-		} else if (error instanceof Error) {
-			throw error.message;
-		} else {
+		if (error) {
 			throw error;
 		}
+		throw error;
 	}
 };

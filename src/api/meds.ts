@@ -1,17 +1,13 @@
 import axios from "axios";
-const API_URL = "http://localhost:8080";
+import { Med } from "../types/Med";
+import apiClient from "./axiosConfig";
 
-export const getMeds = async () => {
-	const token = localStorage.getItem("authToken");
+export const getMeds = async (): Promise<Med[]> => {
 	try {
-		const response = await axios.get(`${API_URL}/api/meds`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+		const response = await apiClient.get<Med[]>("/meds");
 		return response.data;
 	} catch (error) {
-		console.error("Error fetching medications:", error);
+		console.error("Error fetching meds:", error);
 		throw error;
 	}
 };

@@ -32,7 +32,7 @@ const ProfilePage = () => {
 					return;
 				}
 
-				const profileData = await getProfile(user.token);
+				const profileData = await getProfile();
 				setProfile(profileData);
 			} catch (err) {
 				setError("Failed to fetch profile data");

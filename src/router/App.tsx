@@ -10,6 +10,10 @@ import PurchaseSuccessful from "../pages/PurchaseSuccessful";
 import CartPage from "../pages/Cart";
 import { CartProvider } from "../context/CartContext";
 import { ShopPage } from "../pages/ShopPage";
+import AdminRoute from "../admin/AdminRoute";
+import Main from "../pages/adminPages/Main";
+import ManageUsersPage from "../pages/adminPages/ManageUsersPage";
+import AllOrdersPage from "../pages/adminPages/AllOrdersPage";
 
 export default function App() {
 	return (
@@ -26,6 +30,11 @@ export default function App() {
 						<Route path="/purchase" element={<CartPage />} />
 						<Route path="/shop" element={<ShopPage />} />
 						<Route path="/purchase-success" element={<PurchaseSuccessful />} />
+						<Route path="/admin" element={<AdminRoute />}>
+							<Route path="main" element={<Main />} />
+							<Route path="users" element={<ManageUsersPage />} />
+							<Route path="orders" element={<AllOrdersPage />} />
+						</Route>
 					</Routes>
 				</BrowserRouter>
 			</CartProvider>

@@ -3,10 +3,11 @@ import CustomTextField from "./TextField";
 import Stack from "@mui/material/Stack";
 import CustomButton from "./Button";
 import Fingerprint from "@mui/icons-material/Fingerprint";
-import axios from "axios";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
+import { LoginDTO } from "../types/Auth";
+import { loginApi } from "../api/auth";
 
 export default function Form() {
 	const { login } = useAuth();
@@ -22,14 +23,14 @@ export default function Form() {
 		setError("");
 
 		try {
-			const response = await axios.post(
-				"http://localhost:8080/api/auth/login",
-				{ username, password },
-			);
-			const { token, userId, username: responseUsername } = response.data;
-			login(token, userId, responseUsername);
-
-			navigate("/home");
+			const loginData: LoginDTO = { username, password };
+			const responseData = await loginApi(loginData);
+			login(responseData);
+			if (responseData.role.includes("ROLE_ADMIN")) {
+				navigate("/admin/main");
+			} else {
+				navigate("/home");
+			}
 		} catch (error: any) {
 			console.error("Login error:", error);
 			if (error.response && error.response.status === 401) {
@@ -64,6 +65,7 @@ export default function Form() {
 					text={loading ? "Logging in..." : "Login"}
 					icon={<Fingerprint />}
 					type="submit"
+					disabled={loading}
 				/>
 			</Stack>
 		</form>
