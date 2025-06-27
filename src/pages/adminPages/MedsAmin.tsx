@@ -1,14 +1,14 @@
 import React from "react";
 import { Box } from "@mui/material";
 import ResponsiveAppBar from "../../components/AppBar";
-import CustomButton from "../../components/Button";
 import Footer from "../../components/Footer";
+import CustomButton from "../../components/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import AllPurchases from "../../components/AllPurchases";
+import MedsListMain from "../../components/MedsListMain";
 
-const AllOrdersPage: React.FC = () => {
+const MedsAdmin: React.FC = () => {
 	const { logout } = useAuth();
 	const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ const AllOrdersPage: React.FC = () => {
 					px: 2,
 				}}
 			>
-				<AllPurchases />
+				<MedsListMain />
 			</Box>
 
 			<Box
@@ -60,4 +60,4 @@ const AllOrdersPage: React.FC = () => {
 	);
 };
 
-export default AllOrdersPage;
+export default MedsAdmin;

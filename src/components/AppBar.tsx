@@ -15,13 +15,17 @@ import Logo from "./Logo";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const pages = ["Meds", "Purchase", "Purchase History"];
+const userPages = ["Meds", "Purchase", "Purchase History"];
 const settings = ["Profile", "Account", "Logout"];
-const adminPages = ["Dashboard", "Manage Users", "All Orders"];
+const adminPages = ["Meds", "Manage Users", "All Orders"];
 
 function ResponsiveAppBar() {
 	const navigate = useNavigate();
-	const { user } = useAuth();
+	const { user, logout } = useAuth();
+	const isAdmin = user?.role.includes("ROLE_ADMIN");
+
+	const pagesToDisplay = isAdmin ? adminPages : userPages;
+
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null,
 	);
@@ -43,18 +47,23 @@ function ResponsiveAppBar() {
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
 	};
+
+	const handleLogoClick = () => {
+		navigate(isAdmin ? "/admin/main" : "/home");
+	};
+
 	const handleNavMenuClick = (page: string) => {
 		handleCloseNavMenu();
-		if (user?.role?.includes("ROLE_ADMIN")) {
+		if (isAdmin) {
 			switch (page) {
-				case "Main":
-					navigate("/admin/main");
+				case "Meds":
+					navigate("/admin/meds");
 					break;
 				case "Manage Users":
 					navigate("/admin/users");
 					break;
 				case "All Orders":
-					navigate("/admin/orders");
+					navigate("/admin/all-purchases");
 					break;
 				default:
 					navigate("/admin/main");
@@ -65,8 +74,8 @@ function ResponsiveAppBar() {
 				case "Meds":
 					navigate("/shop");
 					break;
-				case "Cart":
-					navigate("/cart");
+				case "Purchase":
+					navigate("/purchase");
 					break;
 				case "Purchase History":
 					navigate("/purchase-history");
@@ -88,7 +97,7 @@ function ResponsiveAppBar() {
 				navigate("/account");
 				break;
 			case "Logout":
-				localStorage.removeItem("user");
+				logout();
 				navigate("/login");
 				break;
 			default:
@@ -104,7 +113,7 @@ function ResponsiveAppBar() {
 					<Typography
 						variant="h6"
 						noWrap
-						onClick={() => navigate("/home")}
+						onClick={handleLogoClick}
 						sx={{
 							mr: 2,
 							display: { xs: "none", md: "flex" },
@@ -145,7 +154,7 @@ function ResponsiveAppBar() {
 							onClose={handleCloseNavMenu}
 							sx={{ display: { xs: "block", md: "none" } }}
 						>
-							{pages.map((page) => (
+							{pagesToDisplay.map((page) => (
 								<MenuItem key={page} onClick={() => handleNavMenuClick(page)}>
 									<Typography textAlign="center">{page}</Typography>
 								</MenuItem>
@@ -155,7 +164,7 @@ function ResponsiveAppBar() {
 					<Typography
 						variant="h5"
 						noWrap
-						onClick={() => navigate("/home")}
+						onClick={handleLogoClick}
 						sx={{
 							mr: 2,
 							display: { xs: "flex", md: "none" },
@@ -171,7 +180,7 @@ function ResponsiveAppBar() {
 						PHARMACY
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-						{pages.map((page) => (
+						{pagesToDisplay.map((page) => (
 							<Button
 								key={page}
 								onClick={() => handleNavMenuClick(page)}
@@ -181,38 +190,40 @@ function ResponsiveAppBar() {
 							</Button>
 						))}
 					</Box>
-					<Box sx={{ flexGrow: 0 }}>
-						<Tooltip title="Open settings">
-							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Pharmacy" src="/static/images/avatar/2.jpg" />
-							</IconButton>
-						</Tooltip>
-						<Menu
-							sx={{ mt: "45px" }}
-							id="menu-appbar"
-							anchorEl={anchorElUser}
-							anchorOrigin={{
-								vertical: "top",
-								horizontal: "right",
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: "top",
-								horizontal: "right",
-							}}
-							open={Boolean(anchorElUser)}
-							onClose={handleCloseUserMenu}
-						>
-							{settings.map((setting) => (
-								<MenuItem
-									key={setting}
-									onClick={() => handleUserMenuClick(setting)}
-								>
-									<Typography textAlign="center">{setting}</Typography>
-								</MenuItem>
-							))}
-						</Menu>
-					</Box>
+					{!isAdmin && (
+						<Box sx={{ flexGrow: 0 }}>
+							<Tooltip title="Open settings">
+								<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+									<Avatar alt="Pharmacy" src="/static/images/avatar/2.jpg" />
+								</IconButton>
+							</Tooltip>
+							<Menu
+								sx={{ mt: "45px" }}
+								id="menu-appbar"
+								anchorEl={anchorElUser}
+								anchorOrigin={{
+									vertical: "top",
+									horizontal: "right",
+								}}
+								keepMounted
+								transformOrigin={{
+									vertical: "top",
+									horizontal: "right",
+								}}
+								open={Boolean(anchorElUser)}
+								onClose={handleCloseUserMenu}
+							>
+								{settings.map((setting) => (
+									<MenuItem
+										key={setting}
+										onClick={() => handleUserMenuClick(setting)}
+									>
+										<Typography textAlign="center">{setting}</Typography>
+									</MenuItem>
+								))}
+							</Menu>
+						</Box>
+					)}
 				</Toolbar>
 			</Container>
 		</AppBar>

@@ -1,5 +1,3 @@
-import axios from "axios";
-import { PaymentMethods } from "../types/PaymentMethods";
 import { Purchase, PurchaseItemDTO } from "../types/Purchase";
 import apiClient from "./axiosConfig";
 

@@ -44,10 +44,10 @@ const AccountPage = () => {
 				const profileData = await getProfile();
 				setProfile(profileData);
 				setFormData({
-					name: profileData.name,
-					lastName: profileData.lastName,
+					name: profileData.name ?? "",
+					lastName: profileData.lastName ?? "",
 					email: profileData.email,
-					phoneNumber: profileData.phoneNumber,
+					phoneNumber: profileData.phoneNumber ?? 0,
 				});
 			} catch (err) {
 				setError("Failed to fetch profile data");
@@ -152,8 +152,8 @@ const AccountPage = () => {
 								fontWeight: "bold",
 							}}
 						>
-							{profile.name.charAt(0)}
-							{profile.lastName.charAt(0)}
+							{profile.name.charAt(0) ?? ""}
+							{profile.lastName.charAt(0) ?? ""}
 						</Avatar>
 					</Box>
 
@@ -164,7 +164,7 @@ const AccountPage = () => {
 							fullWidth
 							label="First name"
 							name="name"
-							value={formData.name}
+							value={formData.name ?? ""}
 							onChange={handleInputChange}
 							margin="normal"
 							required
@@ -173,7 +173,7 @@ const AccountPage = () => {
 							fullWidth
 							label="Last name"
 							name="lastName"
-							value={formData.lastName}
+							value={formData.lastName ?? ""}
 							onChange={handleInputChange}
 							margin="normal"
 							required
@@ -193,7 +193,7 @@ const AccountPage = () => {
 							label="Phone number"
 							name="phoneNumber"
 							type="number"
-							value={formData.phoneNumber}
+							value={formData.phoneNumber ?? 0}
 							onChange={handleInputChange}
 							margin="normal"
 							required

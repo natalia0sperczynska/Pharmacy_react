@@ -41,7 +41,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	const isAdmin = (): boolean => {
-		return user?.role?.includes("ROLE_ADMIN") ?? false;
+		return (
+			user?.role.includes("ROLE_ADMIN") ||
+			(user?.role?.includes("ROLE_ADMIN") ?? false)
+		);
 	};
 
 	return (
@@ -58,4 +61,3 @@ export const useAuth = (): AuthContextType => {
 	}
 	return context;
 };
-export default AuthContext;

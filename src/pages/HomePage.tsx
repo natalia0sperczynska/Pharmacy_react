@@ -12,7 +12,7 @@ import { Typography } from "@mui/material";
 import MedsListMain from "../components/MedsListMain";
 
 const HomePage: React.FC = () => {
-	const { user } = useAuth();
+	const { user, logout } = useAuth();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -24,11 +24,6 @@ const HomePage: React.FC = () => {
 	if (!user) {
 		return <Box>Loading...</Box>;
 	}
-
-	const handleLogout = () => {
-		localStorage.removeItem("user");
-		navigate("/login");
-	};
 
 	return (
 		<Box
@@ -110,7 +105,10 @@ const HomePage: React.FC = () => {
 					text="Logout"
 					icon={<LogoutIcon />}
 					size="medium"
-					onClick={handleLogout}
+					onClick={() => {
+						logout();
+						navigate("/login");
+					}}
 				/>
 			</Box>
 		</Box>

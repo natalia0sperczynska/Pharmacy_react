@@ -13,7 +13,7 @@ import { Purchase } from "../types/Purchase";
 import { Typography } from "@mui/material";
 
 const PurchasePage: React.FC = () => {
-	const { user } = useAuth();
+	const { user, logout } = useAuth();
 	const navigate = useNavigate();
 	const [purchases, setPurchases] = useState<Purchase[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -40,12 +40,6 @@ const PurchasePage: React.FC = () => {
 
 		fetchPurchases();
 	}, [user]);
-
-	const handleLogout = () => {
-		localStorage.removeItem("user");
-		localStorage.removeItem("authToken");
-		navigate("/login");
-	};
 
 	if (loading) {
 		return <Box>Loading...</Box>;
@@ -113,7 +107,10 @@ const PurchasePage: React.FC = () => {
 					text="Logout"
 					icon={<LogoutIcon />}
 					size="medium"
-					onClick={handleLogout}
+					onClick={() => {
+						logout();
+						navigate("/login");
+					}}
 				/>
 			</Box>
 		</Box>

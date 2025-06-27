@@ -14,6 +14,8 @@ import AdminRoute from "../admin/AdminRoute";
 import Main from "../pages/adminPages/Main";
 import ManageUsersPage from "../pages/adminPages/ManageUsersPage";
 import AllOrdersPage from "../pages/adminPages/AllOrdersPage";
+import RegisterPage from "../pages/Register";
+import MedsAdmin from "../pages/adminPages/MedsAmin";
 
 export default function App() {
 	return (
@@ -22,6 +24,7 @@ export default function App() {
 				<BrowserRouter>
 					<Routes>
 						<Route path="/login" element={<Login />} />
+						<Route path="/register" element={<RegisterPage />} />
 						<Route path="/" element={<About />} />
 						<Route path="/home" element={<HomePage />} />
 						<Route path="/purchase-history" element={<PurchasePage />} />
@@ -32,8 +35,9 @@ export default function App() {
 						<Route path="/purchase-success" element={<PurchaseSuccessful />} />
 						<Route path="/admin" element={<AdminRoute />}>
 							<Route path="main" element={<Main />} />
+							<Route path="meds" element={<MedsAdmin />} />
 							<Route path="users" element={<ManageUsersPage />} />
-							<Route path="orders" element={<AllOrdersPage />} />
+							<Route path="all-purchases" element={<AllOrdersPage />} />
 						</Route>
 					</Routes>
 				</BrowserRouter>

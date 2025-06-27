@@ -89,11 +89,11 @@ const ProfilePage = () => {
 								fontWeight: "bold",
 							}}
 						>
-							{profile.name.charAt(0)}
-							{profile.lastName.charAt(0)}
+							{profile.name.charAt(0) ?? ""}
+							{profile.lastName.charAt(0) ?? ""}
 						</Avatar>
 						<Typography variant="h4" component="h1" color="primary.dark">
-							{profile.name} {profile.lastName}
+							{profile.name ?? "Not given"} {profile.lastName ?? "Not given"}
 						</Typography>
 					</Box>
 
@@ -102,16 +102,16 @@ const ProfilePage = () => {
 					<Box sx={{ mb: 3 }}>
 						<Typography variant="h6">Personal Information</Typography>
 						<Typography>
-							<strong>First name:</strong> {profile.name}
+							<strong>First name:</strong> {profile.name ?? "Not given"}
 						</Typography>
 						<Typography>
-							<strong>Last name:</strong> {profile.lastName}
+							<strong>Last name:</strong> {profile.lastName ?? "Not given"}
 						</Typography>
 						<Typography>
 							<strong>Email:</strong> {profile.email}
 						</Typography>
 						<Typography>
-							<strong>Phone number:</strong> {profile.phoneNumber}
+							<strong>Phone number:</strong> {profile.phoneNumber ?? 0}
 						</Typography>
 					</Box>
 
